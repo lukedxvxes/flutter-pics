@@ -26,12 +26,15 @@ class ImageList extends StatelessWidget {
 
   @override
   Widget build(context) {
+    var reversedImageList = List.from(images.reversed);
+
     return ListView.builder(
         shrinkWrap: true,
+        reverse: true,
         padding: const EdgeInsets.all(10),
         itemCount: images.length,
         itemBuilder: (context, int index) {
-          return buildImage(images[index]);
+          return buildImage(reversedImageList[index]);
         });
   }
 }
