@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http show get;
 import 'dart:convert';
 import './models/image_model.dart';
 import './widgets/image_list.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -19,9 +20,9 @@ class _AppState extends State<App> {
     setState(() {
       _counter++;
     });
-
+    var key = dotenv.env['UNSPLASH_ACCESS_KEY'];
     final response = await http.get(
-        Uri.parse('https://jsonplaceholder.typicode.com/photos/$_counter'));
+        Uri.parse('https://api.unsplash.com/photos/random/?client_id=$key'));
 
     if (response.statusCode == 200) {
       final imageModel = ImageModel.fromJson(json.decode(response.body));

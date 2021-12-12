@@ -1,13 +1,13 @@
 class ImageModel {
-  int id = 0;
-  String title = '';
-  String url = ''; 
+  String id = '';
+  String username = '';
+  String url = '';
 
-  ImageModel(this.id, this.title, this.url);
+  ImageModel(this.id, this.username, this.url);
 
-  ImageModel.fromJson(Map<String, dynamic> parsedJson){
+  ImageModel.fromJson(Map<String, dynamic> parsedJson) {
     id = parsedJson['id'];
-    title = parsedJson['title'];
-    url = parsedJson['url'];
+    username = parsedJson['user']['username'];
+    url = parsedJson['urls']['small'];
   }
 }
