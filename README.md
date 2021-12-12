@@ -11,6 +11,7 @@ A new Flutter project.
 - create `.env` file in the root dir and add your unsplash api access key `UNSPLASH_ACCESS_KEY='******'`
 - run `flutter run` from the command line to boot up the app.
 
+## Resources
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
