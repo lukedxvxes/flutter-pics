@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http show get;
 import 'dart:convert';
 import './models/image_model.dart';
+import './widgets/image_list.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int _counter = 1;
+  List<ImageModel> images = [];
 
   Future _fetchImage() async {
     setState(() {
@@ -22,11 +24,12 @@ class _AppState extends State<App> {
         Uri.parse('https://jsonplaceholder.typicode.com/photos/$_counter'));
 
     if (response.statusCode == 200) {
-      var image = ImageModel.fromJson(json.decode(response.body));
-      print(image.url);
-      return image;
+      final imageModel = ImageModel.fromJson(json.decode(response.body));
+      setState(() {
+        images.add(imageModel);
+      });
     } else {
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load picture');
     }
   }
 
@@ -37,10 +40,9 @@ class _AppState extends State<App> {
         appBar: AppBar(
           title: const Text('Get Pix'),
         ),
-        body: Text(
-          'Images displayed $_counter',
-          style: const TextStyle(fontSize: 24),
-        ),
+        body: _counter > 0
+            ? ImageList(images)
+            : const Center(child: Text('No Pics')),
         floatingActionButton: FloatingActionButton(
           onPressed: _fetchImage,
           tooltip: 'Increment Counter',
