@@ -1,27 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http show get;
+import 'dart:convert';
+import './models/image_model.dart';
+import './widgets/image_list.dart';
 
-class App extends StatefulWidget{
+class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
 
   @override
   _AppState createState() => _AppState();
 }
 
-
 class _AppState extends State<App> {
-  
-  int _counter = 0;
+  int _counter = 1;
+  List<ImageModel> images = [];
 
-  void _increment(){
-    setState((){
-      _counter++; 
+  Future _fetchImage() async {
+    setState(() {
+      _counter++;
     });
-  }
 
-  void _clearCounter(){
-    setState((){
-      _counter = 0;
-    });
+    final response = await http.get(
+        Uri.parse('https://jsonplaceholder.typicode.com/photos/$_counter'));
+
+    if (response.statusCode == 200) {
+      final imageModel = ImageModel.fromJson(json.decode(response.body));
+      setState(() {
+        images.add(imageModel);
+      });
+    } else {
+      throw Exception('Failed to load picture');
+    }
   }
 
   @override
@@ -31,18 +40,14 @@ class _AppState extends State<App> {
         appBar: AppBar(
           title: const Text('Get Pix'),
         ),
-
-        body: Text(
-            'Images displayed $_counter',
-            style: const TextStyle(fontSize: 24),
-        ),
-
+        body: _counter > 0
+            ? ImageList(images)
+            : const Center(child: Text('No Pics')),
         floatingActionButton: FloatingActionButton(
-          onPressed: _increment,
+          onPressed: _fetchImage,
           tooltip: 'Increment Counter',
           child: const Icon(Icons.filter_list),
         ),
-
       ),
     );
   }
