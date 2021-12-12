@@ -1,4 +1,4 @@
-# Pics - View unsplash images at the click of a button
+## Pics - View unsplash images at the click of a button
 
 A new Flutter project.
 - user can click button to request a new image from unsplash which is then displayed at the bottom of the image list. 
