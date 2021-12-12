@@ -18,7 +18,7 @@ class ImageList extends StatelessWidget {
           Padding(
               child: Image.network(image.url),
               padding: const EdgeInsets.only(bottom: 10.0)),
-          Text(image.title)
+          Text('@' + image.username)
         ],
       ),
     );
